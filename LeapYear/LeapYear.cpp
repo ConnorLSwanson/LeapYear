@@ -9,6 +9,9 @@
 
 using namespace std;
 
+bool CheckForLeapYear(int year);
+void DisplayLeapYear(bool isLeapYear);
+
 int main()
 {
     // current date/time based on current system
@@ -17,38 +20,44 @@ int main()
     // convert now to string form
     char* dt = ctime(&now);
 
+    // format -> day mth DD hh:mm:ss YYYY
+    // e.g.   -> Tue Jul 26 14:01:32 2022
     string date = (string)dt;
 
-    char year1 = date[21];
-    char year2 = date[22];
-    char year3 = date[23];
-    char year4 = date[24];
-
     string year; 
-    year.push_back(date[20]);
-    year.push_back(date[21]);
-    year.push_back(date[22]);
-    year.push_back(date[23]);
+    year.push_back(date[date.size() - 5]);
+    year.push_back(date[date.size() - 4]);
+    year.push_back(date[date.size() - 3]);
+    year.push_back(date[date.size() - 2]);
 
     int currentYear = stoi(year);
+    cout << "current year " << currentYear << endl;
 
     // Run check if this is leap year.
-    bool isLeapYear = false;
-    if (currentYear % 100 == 0)
+    bool isLeapYear = CheckForLeapYear(currentYear);
+
+    // Tell the user if it is currently a leap year.
+    DisplayLeapYear(isLeapYear);
+}
+
+bool CheckForLeapYear(int year) 
+{
+    if (year % 100 == 0)
     {
-        isLeapYear = false;
+        return false;
     }
-    else if (currentYear % 4 == 0)
+    else if (year % 4 == 0)
     {
-        isLeapYear = true;
+        return true;
     }
     else
     {
-        isLeapYear = false;
+        return false;
     }
+}
 
-
-    // Tell the user if it is currently a leap year.
+void DisplayLeapYear(bool isLeapYear)
+{
     if (isLeapYear)
     {
         cout << "This year is a leap year!" << endl;
